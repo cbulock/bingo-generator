@@ -24,7 +24,11 @@ export const useBingoStore = defineStore('bingo', () => {
     const { items } = storeToRefs(itemsStore)
 
     const generateRandomizedItems = () => {
-      const shuffledItems = [...items.value].sort(() => 0.5 - Math.random());
+      let shuffledItems = [...items.value];
+      while (shuffledItems.length < 24) {
+        shuffledItems.push('');
+      }
+      shuffledItems = shuffledItems.sort(() => 0.5 - Math.random());
       return shuffledItems.slice(0, 24);
     };
 
