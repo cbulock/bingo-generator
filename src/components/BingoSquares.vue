@@ -12,9 +12,9 @@ defineProps({
 <template>
   <div class="bingo-squares">
     <template v-for="n in 25" :key="n">
-      <Square v-if="n < 13">{{ items[n - 1] }}</Square>
-      <Square v-else-if="n === 13">⭐</Square>
-      <Square v-else>{{ items[n - 2] }}</Square>
+      <Square v-if="n < 13" :square="n">{{ items[n - 1] }}</Square>
+      <Square v-else-if="n === 13" :square="n">⭐</Square>
+      <Square v-else :square="n">{{ items[n - 2] }}</Square>
     </template>
   </div>
 </template>

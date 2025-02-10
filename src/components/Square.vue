@@ -1,10 +1,23 @@
 <script setup>
-import { ref, onMounted, onUpdated, nextTick } from 'vue'
+import { nextTick, ref, onMounted, onUpdated, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+
+import { useBingoStore } from '@/stores/bingo'
+const bingoStore = useBingoStore()
+const { selectedFont } = storeToRefs(bingoStore)
+
+defineProps({
+  square: {
+    type: Number,
+    required: true,
+  },
+})
 
 const textRef = ref(null)
 const boxRef = ref(null)
 
-const fitText = () => {
+const fitText = async () => {
+  await nextTick()
   if (!textRef.value || !boxRef.value) return
 
   const style = window.getComputedStyle(boxRef.value)
@@ -46,10 +59,12 @@ onMounted(async () => {
 onUpdated(() => {
   fitText() // Adjust when text updates
 })
+
+watch(() => selectedFont.value, fitText)
 </script>
 
 <template>
-  <div ref="boxRef" class="square">
+  <div ref="boxRef" class="square border border-gray-600" :class="`square-${square}`">
     <span ref="textRef" class="content">
       <slot />
     </span>
@@ -58,7 +73,7 @@ onUpdated(() => {
 
 <style scoped>
 .square {
-  border: 1px solid black;
+  font-family: var(--selected-font);
   width: 5rem;
   height: 5rem;
   display: flex;
@@ -66,15 +81,28 @@ onUpdated(() => {
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  padding: 0.5rem; /* Adjust padding as needed */
-  box-sizing: border-box; /* Ensure padding does not add extra size */
+  padding: 0.5rem;
+  box-sizing: border-box;
 }
 
 .content {
   display: block;
-  white-space: normal; /* Allow text wrapping */
+  white-space: normal;
   word-break: normal;
-  line-height: 1.2; /* Adjust for better readability */
+  line-height: 1.2;
   text-align: center;
+}
+
+.square-1 {
+  border-top-left-radius: 11px;
+}
+.square-5 {
+  border-top-right-radius: 11px;
+}
+.square-21 {
+  border-bottom-left-radius: 11px;
+}
+.square-25 {
+  border-bottom-right-radius: 11px;
 }
 </style>

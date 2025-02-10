@@ -11,7 +11,7 @@ export const useItemsStore = defineStore('items', () => {
     items.value[index] = item;
   };
   const removeItem = (index) => {
-    items.value.spliace(index, 1);
+    items.value.splice(index, 1);
   };
   return { addItem, items, removeItem, updateItem }
 }, {

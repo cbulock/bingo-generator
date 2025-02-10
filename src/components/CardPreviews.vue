@@ -27,7 +27,7 @@ const paginatedItems = (index) => {
   <div class="bingo-card">
     <CardHeader :title="cardTitle" />
     <template v-for="(card, index) of numberOfCards" :key="index">
-      <BingoSquares class="bingo-squares" :items="paginatedItems(index)" />
+      <BingoSquares class="bingo-squares border border-gray-600" :items="paginatedItems(index)" />
     </template>
   </div>
 </template>
@@ -35,5 +35,7 @@ const paginatedItems = (index) => {
 <style scoped>
 .bingo-squares {
   margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 </style>
